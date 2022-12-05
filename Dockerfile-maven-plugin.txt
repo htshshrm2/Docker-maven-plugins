@@ -1,0 +1,55 @@
+
+#########################################Plugin configuration in pom.xml########################################################################
+
+<plugin>
+    <groupId>com.spotify</groupId>
+    <artifactId>dockerfile-maven-plugin</artifactId>
+    <version>1.4.13</version>
+    <executions>
+        <execution>
+            <id>package</id>
+            <goals>
+                <goal>build</goal>
+                <goal>push</goal>
+            </goals>
+        </execution>
+    </executions>
+    <configuration>
+        <repository>registry.hub.docker.com/htshshrm2/${project.artifactId}</repository>
+        <tag>${project.version}</tag>
+        <buildArgs>
+            <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+        </buildArgs>
+    </configuration>
+</plugin>
+
+########################################Settings.xml configuration###############################################################################
+
+create a settings.xml under ~/.m2 path and add the Docker Hub credentials. Here, I add an example that you just need to replace username, password, and email.
+
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                          https://maven.apache.org/xsd/settings-1.0.0.xsd">
+    <servers>
+        <server>
+            <id>registry.hub.docker.com</id>
+            <username>USERNAME</username>
+            <password>PASSWORD</password>
+            <configuration>
+                <email>EMAIL_ADDRESS</email>
+            </configuration>
+        </server>
+    </servers>
+</settings>
+
+##########################################Dockerfile configuration#################################################################################
+
+FROM openjdk:11-jre-slim
+COPY target/jb-hello-world-maven-0.2.0.jar /usr/local/lib/demo.jar
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","/usr/local/lib/demo.jar"]
+
+
+
+

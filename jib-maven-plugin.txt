@@ -1,0 +1,25 @@
+#########################################Plugin configuration in pom.xml#######################################################################
+
+<plugin>
+    <groupId>com.google.cloud.tools</groupId>
+    <artifactId>jib-maven-plugin</artifactId>
+    <version>2.1.0</version>
+    <configuration>
+        <from>
+            <image>openjdk:11-jdk-slim</image>
+        </from>
+        <to>
+            <image>registry.hub.docker.com/htshshrm2/appname</image>
+            <tags>
+                <tag>latest</tag>
+                <tag>${project.version}</tag>
+            </tags>
+        </to>
+        <container>
+            <mainClass>demo.Application</mainClass>
+            <ports>
+                <port>8080</port>
+            </ports>
+        </container>
+    </configuration>
+</plugin>
